@@ -14,6 +14,7 @@ def get_long_description():
 
 requirements = [
     'aio-pika==6.8',
+    'marshmallow',
 ]
 
 setup(
@@ -21,6 +22,7 @@ setup(
     version=__version__,
     description='Awesome producers and consumers powered by aio_pika.',
     long_description=get_long_description(),
+    license='MIT',
 
     # The project's main homepage.
     url='https://github.com/aobcvr/amqp_framework',
