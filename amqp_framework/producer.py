@@ -3,8 +3,14 @@ import json
 import uuid
 
 import aio_pika
-from accounts.settings import AMQP_URI
-from amqp_framework.src.response import Response
+from environs import Env
+
+from .response import Response
+
+env = Env()
+env.read_env()  # also reads the .env file in project root
+
+AMQP_URI = env.str('AMQP_URI')
 
 
 class Producer:

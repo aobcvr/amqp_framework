@@ -4,22 +4,15 @@ Setup.py for module micomp.
 
 from setuptools import setup, find_packages  # Always prefer setuptools over distutils
 
-from amqp_framework import __version__
-
 
 def get_long_description():
     with open('README.md', 'r') as fh:
         return fh.read()
 
 
-requirements = [
-    'aio-pika==6.8',
-    'marshmallow',
-]
-
 setup(
-    name='micomp',
-    version=__version__,
+    name='amqp_framework',
+    version='0.1.1',
     description='Awesome producers and consumers powered by aio_pika.',
     long_description=get_long_description(),
     license='MIT',
@@ -54,7 +47,11 @@ setup(
     # You can just specify the packages manually here if your project is
     # simple. Or you can use find_packages().
     packages=find_packages(),
-    install_requires=requirements,
+    install_requires=[
+        'aio-pika==6.8',
+        'marshmallow',
+        'environs',
+    ],
     extras_require={
         'dev': [
             # Linters
