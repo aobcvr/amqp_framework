@@ -1,6 +1,15 @@
+"""
+HTTP status codes.
+See RFC 2616 - https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+And RFC 6585 - https://tools.ietf.org/html/rfc6585
+And RFC 4918 - https://tools.ietf.org/html/rfc4918
+"""
+
 import enum
+import functools
 
 
+@enum.unique
 class HTTPStatus(enum.IntEnum):
     def __new__(cls, value, phrase: str, description: str = ''):
         obj = int.__new__(cls)
@@ -8,17 +17,31 @@ class HTTPStatus(enum.IntEnum):
         return obj
 
     def __init__(self, _value, phrase: str, description: str = ''):
-        self.phrase = phrase  # noqa
-        self.description = description  # noqa
+        self.phrase = phrase
+        self.description = description
 
-    def __eq__(self, other):
-        assert isinstance(other, (HTTPStatus, int)), "int or HTTPStatus instance required, not {0}" \
-            .format(type(other))
-        return self.value == other.value
+    @functools.total_ordering
+    def __gt__(self, other):
+        if isinstance(other, HTTPStatus):
+            return self.value > other.value
+        elif isinstance(other, int):
+            return self.value > other
+        raise AssertionError("int or HTTPStatus object required, not {0}".format(type(other)))
 
-    @property
-    def is_error(self):
-        return str(self.value)[0] in ('4', '5')
+    def is_informational(self):
+        return 100 <= self.value <= 199
+
+    def is_success(self):
+        return 200 <= self.value <= 299
+
+    def is_redirect(self):
+        return 300 <= self.value <= 399
+
+    def is_client_error(self):
+        return 400 <= self.value <= 499
+
+    def is_server_error(self):
+        return 500 <= self.value <= 599
 
     # informational
     CONTINUE = 100, 'Continue', 'Request received, please continue'

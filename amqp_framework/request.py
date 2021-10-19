@@ -1,21 +1,18 @@
+import aio_pika
+
+
 class Request:
+    """
+    Contains AMQP IncomingMessage and Exchange instances.
+    """
+    def __init__(self, exchange: aio_pika.Exchange, message: aio_pika.IncomingMessage):
+        self.exchange = exchange
+        self.message = message
 
-    def __init__(self, headers: dict = None, data: dict = None):
-        if headers is None:
-            headers = {}
-        else:
-            assert isinstance(headers, dict), 'Unsupported type {0} for headers, dict required.' \
-                .format(type(headers))
-        self.headers = headers
+    @property
+    def headers(self):
+        return self.message.headers
 
-        if data is None:
-            data = {}
-        else:
-            assert isinstance(data, dict), 'Unsupported type {0} for data, dict required.' \
-                .format(type(data))
-        self.data = data
-
-    def __repr__(self):
-        return "<Response(data='{0}', headers='{1}')>".format(
-            self.data, self.headers
-        )
+    @property
+    def body(self):
+        return self.message.body

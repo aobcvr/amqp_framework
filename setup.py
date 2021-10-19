@@ -12,7 +12,7 @@ def get_long_description():
 
 setup(
     name='amqp_framework',
-    version='0.1.1',
+    version='1.0.dev1',
     description='Awesome producers and consumers powered by aio_pika.',
     long_description=get_long_description(),
     license='MIT',
@@ -51,6 +51,7 @@ setup(
         'aio-pika==6.8',
         'marshmallow',
         'environs',
+        'dynaconf==3.1.7',
     ],
     extras_require={
         'dev': [
